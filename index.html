@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wi-Fi Generations Evolution</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #FF6B6B, #4ECDC4);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .wifi-timeline {
+            padding: 40px;
+            background: #f8f9fa;
+        }
+
+        .wifi-generation {
+            display: flex;
+            margin-bottom: 30px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .wifi-generation:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+
+        .generation-number {
+            width: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .wifi-1 { background: linear-gradient(135deg, #FF9A9E, #FECFEF); }
+        .wifi-2 { background: linear-gradient(135deg, #A8EDEA, #FED6E3); }
+        .wifi-3 { background: linear-gradient(135deg, #FFECD2, #FCB69F); }
+        .wifi-4 { background: linear-gradient(135deg, #667eea, #764ba2); }
+        .wifi-5 { background: linear-gradient(135deg, #f093fb, #f5576c); }
+        .wifi-6 { background: linear-gradient(135deg, #4facfe, #00f2fe); }
+        .wifi-6e { background: linear-gradient(135deg, #43e97b, #38f9d7); }
+        .wifi-7 { background: linear-gradient(135deg, #fa709a, #fee140); }
+
+        .generation-details {
+            flex: 1;
+            padding: 25px;
+        }
+
+        .generation-title {
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+
+        .tech-specs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .spec-item {
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 8px;
+            border-left: 4px solid;
+        }
+
+        .spec-item.speed { border-left-color: #e74c3c; }
+        .spec-item.frequency { border-left-color: #3498db; }
+        .spec-item.year { border-left-color: #f39c12; }
+
+        .spec-label {
+            font-size: 0.8rem;
+            color: #7f8c8d;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+
+        .spec-value {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .typical-use {
+            background: #ecf0f1;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #9b59b6;
+        }
+
+        .typical-use h4 {
+            color: #8e44ad;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .typical-use p {
+            color: #2c3e50;
+            line-height: 1.5;
+        }
+
+        .speed-comparison {
+            margin-top: 40px;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .speed-comparison h3 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #2c3e50;
+            font-size: 1.5rem;
+        }
+
+        .speed-bars {
+            display: flex;
+            align-items: end;
+            gap: 15px;
+            height: 200px;
+            margin-bottom: 20px;
+        }
+
+        .speed-bar {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100%;
+        }
+
+        .bar {
+            width: 100%;
+            border-radius: 8px 8px 0 0;
+            transition: all 0.8s ease;
+            position: relative;
+        }
+
+        .bar-1 { background: linear-gradient(to top, #FF9A9E, #FECFEF); height: 5%; }
+        .bar-2 { background: linear-gradient(to top, #A8EDEA, #FED6E3); height: 10%; }
+        .bar-3 { background: linear-gradient(to top, #FFECD2, #FCB69F); height: 25%; }
+        .bar-4 { background: linear-gradient(to top, #667eea, #764ba2); height: 60%; }
+        .bar-5 { background: linear-gradient(to top, #f093fb, #f5576c); height: 80%; }
+        .bar-6 { background: linear-gradient(to top, #4facfe, #00f2fe); height: 95%; }
+        .bar-6e { background: linear-gradient(to top, #43e97b, #38f9d7); height: 95%; }
+        .bar-7 { background: linear-gradient(to top, #fa709a, #fee140); height: 100%; }
+
+        .bar-label {
+            margin-top: 10px;
+            text-align: center;
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+        }
+
+        @media (max-width: 768px) {
+            .wifi-generation {
+                flex-direction: column;
+            }
+            
+            .generation-number {
+                width: 100%;
+                height: 80px;
+            }
+            
+            .tech-specs {
+                grid-template-columns: 1fr;
+            }
+            
+            .speed-bars {
+                flex-wrap: wrap;
+                height: auto;
+            }
+            
+            .speed-bar {
+                min-width: 120px;
+                height: 150px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌐 Wi-Fi Generations Evolution</h1>
+            <p>From 802.11 Legacy to Wi-Fi 7 - A Complete Technical Overview</p>
+        </div>
+
+        <div class="wifi-timeline">
+            <div class="wifi-generation">
+                <div class="generation-number wifi-1">1</div>
+                <div class="generation-details">
+                    <div class="generation-title">Wi-Fi 1 (802.11)</div>
+                    <div class="tech-specs">
+                        <div class="spec-item speed">
+                            <div class="spec-label">Speed</div>
+                            <div class="spec-value">2 Mbps</div>
+                        </div>
+                        <div class="spec-item frequency">
+                            <div class="spec-label">Frequency</div>
+                            <div class="spec-value">2.4 GHz</div>
+                        </div>
+                        <div class="spec-item year">
+                            <div class="spec-label">Released</div>
+                            <div class="spec-value">1997</div>
+                        </div>
+                    </div>
+                    <div class="typical-use">
+                        <h4>Typical Use</h4>
+                        <p>Basic internet connectivity, email, and simple web browsing. Limited range and speed suitable only for basic applications.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="wifi-generation">
+                <div class="generation-number wifi-2">2</div>
+                <div class="generation-details">
+                    <div class="generation-title">Wi-Fi 2 (802.11a)</div>
+                    <div class="tech-specs">
+                        <div class="spec-item speed">
+                            <div class="spec-label">Speed</div>
+                            <div class="spec-value">54 Mbps</div>
+                        </div>
+                        <div class="spec-item frequency">
+                            <div class="spec-label">Frequency</div>
+                            <div class="spec-value">5 GHz</div>
+                        </div>
+                        <div class="spec-item year">
+                            <div class="spec-label">Released</div>
+                            <div class="spec-value">1999</div>
+                        </div>
+                    </div>
+                    <div class="typical-use">
+                        <h4>Typical Use</h4>
+                        <p>Enhanced web browsing, file sharing, and early multimedia streaming. Less interference but shorter range than 2.4 GHz.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="wifi-generation">
+                <div class="generation-number wifi-3">3</div>
+                <div class="generation-details">
+                    <div class="generation-title">Wi-Fi 3 (802.11g)</div>
+                    <div class="tech-specs">
+                        <div class="spec-item speed">
+                            <div class="spec-label">Speed</div>
+                            <div class="spec-value">54 Mbps</div>
+                        </div>
+                        <div class="spec-item frequency">
+                            <div class="spec-label">Frequency</div>
+                            <div class="spec-value">2.4 GHz</div>
+                        </div>
+                        <div class="spec-item year">
+                            <div class="spec-label">Released</div>
+                            <div class="spec-value">2003</div>
+                        </div>
+                    </div>
+                    <div class="typical-use">
+                        <h4>Typical Use</h4>
+                        <p>Standard home networking, video streaming (SD), online gaming, and VoIP calls. Balanced speed and range performance.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="wifi-generation">
+                <div class="generation-number wifi-4">4</div>
+                <div class="generation-details">
+                    <div class="generation-title">Wi-Fi 4 (802.11n)</div>
+                    <div class="tech-specs">
+                        <div class="spec-item speed">
+                            <div class="spec-label">Speed</div>
+                            <div class="spec-value">600 Mbps</div>
+                        </div>
+                        <div class="spec-item frequency">
+                            <div class="spec-label">Frequency</div>
+                            <div class="spec-value">2.4 & 5 GHz</div>
+                        </div>
+                        <div class="spec-item year">
+                            <div class="spec-label">Released</div>
+                            <div class="spec-value">2009</div>
+                        </div>
+                    </div>
+                    <div class="typical-use">
+                        <h4>Typical Use</h4>
+                        <p>HD video streaming, multiple device connectivity, cloud services, and smart home devices. MIMO technology for improved performance.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="wifi-generation">
+                <div class="generation-number wifi-5">5</div>
+                <div class="generation-details">
+                    <div class="generation-title">Wi-Fi 5 (802.11ac)</div>
+                    <div class="tech-specs">
+                        <div class="spec-item speed">
+                            <div class="spec-label">Speed</div>
+                            <div class="spec-value">3.5 Gbps</div>
+                        </div>
+                        <div class="spec-item frequency">
+                            <div class="spec-label">Frequency</div>
+                            <div class="spec-value">5 GHz</div>
+                        </div>
+                        <div class="spec-item year">
+                            <div class="spec-label">Released</div>
+                            <div class="spec-value">2013</div>
+                        </div>
+                    </div>
+                    <div class="typical-use">
+                        <h4>Typical Use</h4>
+                        <p>4K video streaming, high-density environments, enterprise networks, and bandwidth-intensive applications. MU-MIMO support.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="wifi-generation">
+                <div class="generation-number wifi-6">6</div>
+                <div class="generation-details">
+                    <div class="generation-title">Wi-Fi 6 (802.11ax)</div>
+                    <div class="tech-specs">
+                        <div class="spec-item speed">
+                            <div class="spec-label">Speed</div>
+                            <div class="spec-value">9.6 Gbps</div>
+                        </div>
+                        <div class="spec-item frequency">
+                            <div class="spec-label">Frequency</div>
+                            <div class="spec-value">2.4 & 5 GHz</div>
+                        </div>
+                        <div class="spec-item year">
+                            <div class="spec-label">Released</div>
+                            <div class="spec-value">2019</div>
+                        </div>
+                    </div>
+                    <div class="typical-use">
+                        <h4>Typical Use</h4>
+                        <p>IoT devices, smart cities, AR/VR applications, and ultra-high-density networks. OFDMA and improved power efficiency.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="wifi-generation">
+                <div class="generation-number wifi-6e">6E</div>
+                <div class="generation-details">
+                    <div class="generation-title">Wi-Fi 6E (802.11ax Extended)</div>
+                    <div class="tech-specs">
+                        <div class="spec-item speed">
+                            <div class="spec-label">Speed</div>
+                            <div class="spec-value">9.6 Gbps</div>
+                        </div>
+                        <div class="spec-item frequency">
+                            <div class="spec-label">Frequency</div>
+                            <div class="spec-value">2.4, 5 & 6 GHz</div>
+                        </div>
+                        <div class="spec-item year">
+                            <div class="spec-label">Released</div>
+                            <div class="spec-value">2020</div>
+                        </div>
+                    </div>
+                    <div class="typical-use">
+                        <h4>Typical Use</h4>
+                        <p>Professional applications, 8K streaming, low-latency gaming, and enterprise environments requiring maximum performance and minimal interference.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="wifi-generation">
+                <div class="generation-number wifi-7">7</div>
+                <div class="generation-details">
+                    <div class="generation-title">Wi-Fi 7 (802.11be)</div>
+                    <div class="tech-specs">
+                        <div class="spec-item speed">
+                            <div class="spec-label">Speed</div>
+                            <div class="spec-value">46 Gbps</div>
+                        </div>
+                        <div class="spec-item frequency">
+                            <div class="spec-label">Frequency</div>
+                            <div class="spec-value">2.4, 5 & 6 GHz</div>
+                        </div>
+                        <div class="spec-item year">
+                            <div class="spec-label">Released</div>
+                            <div class="spec-value">2024</div>
+                        </div>
+                    </div>
+                    <div class="typical-use">
+                        <h4>Typical Use</h4>
+                        <p>Next-generation applications, industrial IoT, autonomous vehicles, immersive XR experiences, and ultra-reliable low-latency communications.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="speed-comparison">
+            <h3>📊 Speed Comparison Across Generations</h3>
+            <div class="speed-bars">
+                <div class="speed-bar">
+                    <div class="bar bar-1"></div>
+                    <div class="bar-label">Wi-Fi 1<br>2 Mbps</div>
+                </div>
+                <div class="speed-bar">
+                    <div class="bar bar-2"></div>
+                    <div class="bar-label">Wi-Fi 2<br>54 Mbps</div>
+                </div>
+                <div class="speed-bar">
+                    <div class="bar bar-3"></div>
+                    <div class="bar-label">Wi-Fi 3<br>54 Mbps</div>
+                </div>
+                <div class="speed-bar">
+                    <div class="bar bar-4"></div>
+                    <div class="bar-label">Wi-Fi 4<br>600 Mbps</div>
+                </div>
+                <div class="speed-bar">
+                    <div class="bar bar-5"></div>
+                    <div class="bar-label">Wi-Fi 5<br>3.5 Gbps</div>
+                </div>
+                <div class="speed-bar">
+                    <div class="bar bar-6"></div>
+                    <div class="bar-label">Wi-Fi 6<br>9.6 Gbps</div>
+                </div>
+                <div class="speed-bar">
+                    <div class="bar bar-6e"></div>
+                    <div class="bar-label">Wi-Fi 6E<br>9.6 Gbps</div>
+                </div>
+                <div class="speed-bar">
+                    <div class="bar bar-7"></div>
+                    <div class="bar-label">Wi-Fi 7<br>46 Gbps</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Add animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all wifi generation cards
+        document.querySelectorAll('.wifi-generation').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = 'all 0.6s ease';
+            observer.observe(card);
+        });
+
+        // Animate bars on load
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.querySelectorAll('.bar').forEach((bar, index) => {
+                    setTimeout(() => {
+                        bar.style.opacity = '1';
+                    }, index * 100);
+                });
+            }, 500);
+        });
+    </script>
+</body>
+</html>
